@@ -1,8 +1,6 @@
 Group:
 Crystal Mackey
 Jen McDonnell
-Joaquin Lopez
-Tim Charboneau
 
 Trello board:
 https://trello.com/b/U841OLN6/q4-capstone
