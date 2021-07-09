@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "job-posting-site"
+version = "0.1.0"
+description = ""
+authors = ["joaquinllopez00 <joaquinllopezzz@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+Django = "^3.2.5"
+django-dotenv = "^1.4.2"
+
+[tool.poetry.dev-dependencies]
+autopep8 = "^1.5.7"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

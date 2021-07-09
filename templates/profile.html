@@ -1,0 +1,25 @@
+{% extends 'base.html' %} {% block content %}
+<br />
+<div class="card shadow-sm border-dark">
+  <div class="card-header" style="background-color: #3801fc">
+    <div class="card-text float-right text-white">
+    </div>
+    <h3 class="card-title text-white">{{user.display_name}}</h3>
+    <h5 class="card-subtitle mb-2 text-muted">
+      <span class="badge badge-light"><a href="/profile/{{user.username}}/" class="text-dark">@{{user.username}}</a></span>
+    </h5>
+  </div>
+  <div class="card-body" style="background-color: #9900ff">
+    {% if request.user.is_authenticated %}
+    <h4 class="card-text" style="font-style: italic">{{user.bio}}</h4>
+    <a class="btn btn-danger float-right" href="/logout/" role="button">
+      Logout
+    </a>
+    </div>
+    {% else %}
+    <h4 class="card-text" style="font-style: italic">{{user.bio}}</h4>
+  </div>
+  {% endif %}
+</div>
+<br />
+ {% endblock %}
