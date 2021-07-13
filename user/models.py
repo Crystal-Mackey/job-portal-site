@@ -1,32 +1,35 @@
-from django.db import models
-from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
+from django.db import models
+
+from user.managers import CustomUserManager
+
+JOB_TYPE = (
+    ('M', "Male"),
+    ('F', "Female"),
+
+)
+
+ROLE = (
+    ('employer', "Employer"),
+    ('employee', "Employee"),
+)
 
 class User(AbstractUser):
-    classification = (('employer', 'Employer'), ('employee', 'Employee'))
-    name = models.CharField(max_length=150)
-    bio = models.TextField(null=True, blank=True)
-    email = models.EmailField(unique=True, blank=False)
-    date_joined = models.DateTimeField(default=timezone.now)
-    is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
-    role = models.CharField(choices=classification,
-                            default=False, max_length=10)
-    # Uncomment & fill in model arg when ready
-    # watch_list = models.ManyToManyField(JOB_POST, null=True, blank=True)
+    username = None
+    email = models.EmailField(unique=True, blank=False,
+                              error_messages={
+                                  'unique': "A user with that email already exists.",
+                              })
+    role = models.CharField(choices=ROLE,  max_length=10)
+    gender = models.CharField(choices=JOB_TYPE, max_length=1)
+
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
 
     def __str__(self):
-        return self.name + self.email
+        return self.email
 
-class Listing(models.Model):
-    listing = models.CharField(max_length=140)
-    time = models.DateTimeField(default=timezone.now)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.listing
-
-class Notification(models.Model):
-    mentioned = models.ForeignKey(User, on_delete=models.CASCADE)
-    mention_listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
-    mark_as_read = models.BooleanField(default=False)
+    def get_full_name(self):
+        return self.first_name+ ' ' + self.last_name
+    objects = CustomUserManager()
