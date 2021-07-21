@@ -1,0 +1,25 @@
+{% extends 'base_template.html' %}{% block content %}
+<br />
+
+<div class="search__container" style="padding-left: 7px; color:white;">
+  <p>{{results|length}} results for <strong>{{keywords}}</strong></p>
+  <div class="search-noads__container">  
+    {% for listing in results %}
+    <div class="search-listing__container" style="color:white;">
+      <h1>{{listing.title}}</h1>
+      <p>{{listing.description}}</p>
+      <div class="search-footer__container">
+        <button id="search-footer__button">
+          <a href="/listing/{{listing.id}}/">View</a>
+        </button>
+        <button id="search-footer__button">
+          <a href="/favorite/{{listing.id}}/">{% if not favorite %}Favorite{% else %}Unfavorite{% endif %}</a>
+        </button>
+      </div>            
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+
+

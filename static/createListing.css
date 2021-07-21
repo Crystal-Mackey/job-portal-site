@@ -1,0 +1,53 @@
+.create-listing__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--card-padding);
+  margin-top: 1.5rem;
+  background-color: var(--light-color);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-stack);
+  width: 100%;
+}
+
+form p {
+  display: flex;
+  flex-direction: column;
+}
+
+.create-listing__container textarea,
+.create-listing__container input,
+.create-listing__container select {
+  outline: none;
+  border: 1px solid rgba(230, 230, 230, 0.1);
+  max-height: 35vh;
+  background-color: rgba(230, 230, 230, 0.1);
+  color: var(--offWhite);
+}
+
+.create-listing__container textarea:focus,
+.create-listing__container input:focus,
+.create-listing__container select:focus {
+  outline: 1px solid var(--offWhite);
+}
+
+#create-listing__button {
+  margin-top: var(--button-marginTop);
+  padding: var(--button-padding);
+  width: 100px;
+  color: var(--offWhite);
+  outline: var(--offWhite);
+  border: none;
+  background: var(--background-color);
+  border-radius: 4px;
+  transition: var(--button-transition);
+}
+
+#create-listing__button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--button-boxShadow);
+}

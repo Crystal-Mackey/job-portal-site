@@ -1,0 +1,134 @@
+{% extends 'base_template.html' %}{% block content %}
+<div class="profile__container">
+  <div class="profile-info">
+    <div class="profile-header__container">
+      <h1>{{user.name}}</h1>
+      <p>{{user.username}}</p>
+    </div>
+    {% if request.user == user or request.user.employee == '2' or user.employee == '2' %}
+    <div class="profile-contact__container">
+      <h3>Contact Info:</h3>
+      <p>
+        {% if user.employee == '1' %}Personal {% endif %}Email:
+        <a href="mailto:{{user.email}}" target="_blanks">{{user.email}}</a>
+      </p>
+      {% if user.contact_num %}
+      <p>{% if user.employee == '1' %}Personal {% endif %} Phone Number: {{user.contact_num}}</p>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+  <hr />
+  <div class="profile-personal__container">
+    <div class="profile-bio profile">
+      <p>Bio:</p>
+      <p>{{user.bio}}</p>
+    </div>
+    {% if user.employee == '1' %}
+    <div class="profile-experience profile">
+      <p>Experience:</p>
+      <p>{{user.experience}}</p>
+    </div>
+    <div class="profile-skills profile">
+      <p>Skills:</p>
+      <p>{{user.skills}}</p>
+    </div>
+    {% endif %}
+  </div>
+  {% if user == request.user %}
+  <a id="edit-profile" class="nav-link font-weight-bold" href="/profile/{{request.user.id}}/edit">Edit Profile</a>
+  {% endif %}
+</div>
+
+{% if user == request.user and user.employee == '1' %}
+
+    <div class="listing-creator__container">
+      <h2><strong>Application Hub</strong></h2>
+      <h6>The below information is only seen by <em>you</em></h6>
+      <div class="listing-creator-applicants__container">
+        <div class="listing-applied listing__subContainer">
+          <h5>Applied</h5>
+          {% for listing in applied %}
+            <div id="listing-list__container">
+              <a href="/listing/{{listing.id}}">{{listing.title}} </a>
+              <p href="/listing/{{listing.id}}">{{listing.user.name}} </p>
+              
+            </div>
+          {% endfor %}
+        </div>
+        <div class="listing-applied listing__subContainer">
+          <h5>Accepted</h5>
+          {% for listing in accepted %}
+            <div id="listing-list__container">
+              <a href="/listing/{{listing.id}}">{{listing.title}} </a>
+              <p href="/listing/{{listing.id}}">{{listing.user.name}} </p>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="listing-applied listing__subContainer">
+          <h5>Interviewing</h5>
+          {% for listing in interviewing %}
+            <div id="listing-list__container">
+              <a href="/listing/{{listing.id}}">{{listing.title}} </a>
+              <p href="/listing/{{listing.id}}">{{listing.user.name}} </p>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="listing-applied listing__subContainer">
+          <h5>Offer Extended</h5>
+          {% for listing in offer_extended %}
+            <div id="listing-list__container">
+              <a href="/listing/{{listing.id}}">{{listing.title}} </a>
+              <p href="/listing/{{listing.id}}">{{listing.user.name}} </p>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="listing-applied listing__subContainer">
+          <h5>Hired</h5>
+          {% for listing in hired %}
+            <div id="listing-list__container">
+              <a href="/listing/{{listing.id}}">{{listing.title}} </a>
+              <p href="/listing/{{listing.id}}">{{listing.user.name}} </p>
+            </div>
+          {% endfor %}
+        </div>
+         <div class="listing-applied listing__subContainer">
+          <h5>Rejected</h5>
+          {% for listing in reject %}
+            <div id="listing-list__container">
+              <a href="/listing/{{listing.id}}">{{listing.title}} </a>
+              <p href="/listing/{{listing.id}}">{{listing.user.name}} </p>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %} 
+  </div>
+
+    {% if user.employee == '2' %}
+    <div class="listing__container">
+      <h1>Listings</h1>
+    {% for list in listings %}
+      <div class="listing-content__subContainer">
+        <h5><a href="/listing/{{list.id}}">{{list.title}}</a></h5>
+        <p>{{list.description}}</p>
+      </div>
+    {% endfor %}
+    {% endif %}
+</div>
+
+    {% if user == request.user %}
+    <div class="listing__container">
+      <h1>Favorited Listings</h1>
+    {% for list in fave_jobs %}
+      <div class="listing-content__subContainer">
+        <h5><a href="/listing/{{list.id}}">{{list.title}}</a></h5>
+        <p>{{list.description}}</p>
+      </div>
+    {% endfor %}
+    {% endif %}
+  {% endblock %}
+    
+
+

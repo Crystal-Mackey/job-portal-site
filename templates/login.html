@@ -1,0 +1,13 @@
+{% extends 'base_template.html' %}{% block content %}
+
+<div class="full-page-center__container" style="padding-left: 7px; color: white">
+  <div class="auth__container">
+    <h2>Log In</h2>
+    <form action="" method="post">
+      {% csrf_token %}{{form.as_p}}
+      <input type="submit" value="Log In" id="auth__button" />
+    </form>
+    <p id="auth-redirect">Don't have an account? Click <a href="/signup/">here</a></p>
+  </div>
+  {% endblock %}
+</div>

@@ -1,119 +1,114 @@
-from django.contrib import auth
-from django.contrib import messages
+from django import template
+from django.shortcuts import redirect, render, reverse, HttpResponseRedirect
+from job.models import Listing
+from .models import *
+from .forms import *
+from .helpers import listing_tracker
+from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect , get_object_or_404
-from django.urls import reverse, reverse_lazy
-
-from user.forms import *
-from job.permission import user_is_employee 
+from django.template import RequestContext
+from django.views.generic import RedirectView
 
 
-def get_success_url(request):
-
-    """
-    Handle Success Url After LogIN
-
-    """
-    if 'next' in request.GET and request.GET['next'] != '':
-        return request.GET['next']
-    else:
-        return reverse('job:home')
+def homepage(request):
+    listings = Listing.objects.all()
+    return render(request, 'home.html', {'listings': listings})
 
 
-
-def employee_registration(request):
-
-    """
-    Handle Employee Registration
-
-    """
-    form = EmployeeRegistrationForm(request.POST or None)
-    if form.is_valid():
-        form = form.save()
-        return redirect('user:login')
-    context={
-        
-            'form':form
-        }
-
-    return render(request,'user/employee-registration.html',context)
+def handler404(request, exception):
+    return render(request, '404.html', status=404)
 
 
-def employer_registration(request):
-
-    """
-    Handle Employee Registration 
-
-    """
-
-    form = EmployerRegistrationForm(request.POST or None)
-    if form.is_valid():
-        form = form.save()
-        return redirect('user:login')
-    context={
-        
-            'form':form
-        }
-
-    return render(request,'user/employer-registration.html',context)
+def handler500(request):
+    return render(request, '500.html', status=500)
 
 
-@login_required(login_url=reverse_lazy('users:login'))
-@user_is_employee
-def employee_edit_profile(request, id=id):
-
-    """
-    Handle Employee Profile Update Functionality
-
-    """
-
-    user = get_object_or_404(User, id=id)
-    form = EmployeeProfileEditForm(request.POST or None, instance=user)
-    if form.is_valid():
-        form = form.save()
-        messages.success(request, 'Your Profile Was Successfully Updated!')
-        return redirect(reverse("user:edit-profile", kwargs={
-                                    'id': form.id
-                                    }))
-    context={
-        
-            'form':form
-        }
-
-    return render(request,'user/employee-edit-profile.html',context)
+def signup_view(request):
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            new_user = User.objects.create_user(
+                username=data.get("username"), password=data.get("password"), email=data.get('email'), name=data.get('name'), employee=data.get('employee'))
+            return HttpResponseRedirect("/login/")
+    form = SignUpForm()
+    return render(request, 'signup.html', {"form": form})
 
 
+def login_view(request):
+    template_name = "login.html"
+    form = LoginForm()
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            user = authenticate(
+                request, username=data.get('username'), password=data.get('password'), email=data.get('email'))
+            if user:
+                login(request, user)
+                return HttpResponseRedirect(request.GET.get("next", reverse("home")))
+    form = LoginForm()
+    return render(request, 'login.html', {'form': form})
 
-def user_logIn(request):
 
-    """
-    Provides users to logIn
-
-    """
-
-    form = UserLoginForm(request.POST or None)
-    
-
+def profile_view(request, username):
+    user = User.objects.get(username=username)
+    print(user)
+    listings = Listing.objects.filter(user=user).order_by('-post_date')
+#   notifications = views.notification_count_view(request)
+    applied, accepted,interviewing, offer_extended, hired, reject = listing_tracker(request.user)
+    print(applied)
     if request.user.is_authenticated:
-        return redirect('/')
-    
+        fave_jobs = Listing.objects.filter(favorited_by=request.user)
     else:
-        if request.method == 'POST':
-            if form.is_valid():
-                auth.login(request, form.get_user())
-                return HttpResponseRedirect(get_success_url(request))
+        fave_jobs = []
     context = {
-        'form': form,
+        'user': user,
+        'listings': listings,
+        'fave_jobs': fave_jobs,
+        'applied': applied,
+        'accepted': accepted,
+        'interviewing': interviewing,
+        'offer_extended': offer_extended,
+        'hired': hired,
+        'reject': reject
     }
+    return render(request, 'profile.html', context)
 
-    return render(request,'user/login.html',context)
+
+@login_required
+def edit_profile(request, id):
+    prof = User.objects.get(id=id)
+    
+    if request.method == "POST":
+        form = EditProfileForm(request.POST)
+        print(form.is_valid(), form.errors)
+        if form.is_valid():
+            data = form.cleaned_data
+            print('data')
+            prof.name = data["name"]            
+            prof.bio = data["bio"]
+            prof.experience = data["experience"]
+            prof.skills = data["skills"]
+            prof.contact_num = data["contact_num"]
+            prof.save()
+        return HttpResponseRedirect("/profile/%s" % prof.username)
+    form = EditProfileForm(initial={
+        'name': prof.name,
+        'username': prof.username,
+        'email': prof.email,
+        'bio': prof.bio,
+        'experience': prof.experience,
+        'skills': prof.skills,
+        'contact_num': prof.contact_num,
+    })
+    return render(request, "edit_profile.html", {"form": form})
 
 
-def user_logOut(request):
-    """
-    Provide the ability to logout
-    """
-    auth.logout(request)
-    messages.success(request, 'You are Successfully logged out')
-    return redirect('user:login')
+class logout_view(RedirectView):
+    permanent = False
+    query_string = True
+
+    def get_redirect_url(self):
+        logout(self.request)
+        return reverse("home")

@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "job-posting-site"
+name = "job-board-v2"
 version = "0.1.0"
 description = ""
 authors = ["joaquinllopez00 <joaquinllopezzz@gmail.com>"]
@@ -8,6 +8,7 @@ authors = ["joaquinllopez00 <joaquinllopezzz@gmail.com>"]
 python = "^3.9"
 Django = "^3.2.5"
 django-dotenv = "^1.4.2"
+mimesis = "^4.1.3"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "^1.5.7"

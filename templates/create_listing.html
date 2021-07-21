@@ -1,0 +1,20 @@
+{% extends 'base_template.html' %}{% block content %}
+<br />
+
+
+
+      <div class="create-listing" style="padding-left: 7px; color:white;">
+        <div class="create-listing__header">
+          <h3 id="header">List a Job</h3>
+          <p>Feel free to share as much as you'd like about the postition. After posting, users will be able to view and apply to your oppurtunity</p>
+        </div>
+        <div class="create-listing__container">
+          <form action="" method="post">
+            {% csrf_token %}{{form.as_p}} <input type="submit" value="Submit" id="create-listing__button" />
+          </form>
+        </div>
+      </div>
+    
+  </class>
+  {% endblock %}
+</div>

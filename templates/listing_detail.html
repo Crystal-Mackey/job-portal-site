@@ -1,0 +1,138 @@
+
+</div>{% extends 'base_template.html' %}{% block content %}
+<br />
+
+<div class="listing__container" style="padding-left: 7px; color:white;">
+  <div class="listing__header">
+    <h2 id="header">{{listing.title}}</h2>
+    <a href="/profile/{{listing.user.username}}">{{listing.user.name}}</a>
+  </div>
+  <div class="listing-hero__container">
+    <h5>Description:</h5>
+    <p>{{listing.description}}</p>
+  
+  </div>
+  <div class="listing-buttons__container">
+    <button type="submit" id="favorite_button">
+      <a href="/favorite/{{listing.id}}/">{% if user in listing.favorited_by.all %}Unfavorite{% else %}Favorite{% endif %}</a>
+  </button>
+  {% if not user in listing.applicants.all and user not in listing.accepted_apps.all and user not in listing.interviewing_apps.all and user not in listing.offer_extended_apps.all and user not in listing.hired_apps.all and user not in listing.denied_apps.all %}
+    {% if not user.username == listing.user.username and user.employee != '2' %}
+    <form id="listing-quick-apply" method="post" action="">
+    {% csrf_token %}
+  
+      <button type="submit" id=listing__button>
+      Quick Apply
+      </button>
+  
+    </form>
+    {% endif %}
+  
+  {% else %}
+    <div id="listing-quick-apply__message">
+      {% if user in listing.applicants.all %}
+      <p class="listing-status">Status: <strong>Applied</strong></p>
+      {% elif user in listing.accepted_apps.all %}
+      <p class="listing-status">Status: <strong> Accepted</strong></p>
+      {% elif user in listing.interviewing_apps.all %}
+      <p class="listing-status">Status: <strong>Interviewing</strong></p>
+      {% elif user in listing.offer_extended_apps.all %}
+      <p class="listing-status">Status: <strong>Offer Extended</strong></p>
+      {% elif user in listing.hired_apps.all %}
+      <p class="listing-status">Status: <strong>Hired</strong></p>
+      {% else %}
+      <p class="listing-status">Status: <strong>Rejected</strong></p>
+      {% endif %}
+  {% endif %}
+    </div>
+  
+  <br />
+  <hr />
+  {% if user.username == listing.user.username %}
+    <div class="listing-creator__container">
+      <h2><strong>Hiring Hub</strong></h2>
+      <h6>The below information is only seen by <em>you</em></h6>
+      <div class="listing-creator-applicants__container">
+        <div class="listing-applied listing__subContainer">
+          <h5>Applicants</h5>
+          {% for applicant in listing.applicants.all %}
+            <div class="listing-list__container">
+              <a href="/profile/{{applicant.username}}">{{applicant.username}}</a>
+              <div class="listing-list__buttons">
+                <a href="/applicant/{{listing.id}}/{{applicant.id}}" id="list-button">Move-on</a>
+                <a href="/reject/{{listing.id}}/{{applicant.id}}" id="Reject">Reject</a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="listing-accepted  listing__subContainer">
+          <h5>Accepted Applications</h5>
+          {% for applicant in listing.accepted_apps.all %}
+            <div class="listing-list__container">
+              <a href="/profile/{{applicant.username}}">{{applicant.username}}</a>
+              <div class="listing-list__buttons">
+                <a href="/accepted-applicant/{{listing.id}}/{{applicant.id}}" id="list-button">Move-on</a>
+                <a href="/reject/{{listing.id}}/{{applicant.id}}" id="Reject">Reject</a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="listing-interviewing  listing__subContainer">
+          <h5>Interviewing</h5>
+          {% for applicant in listing.interviewing_apps.all %}
+            <div class="listing-list__container">
+              <a href="/profile/{{applicant.username}}">{{applicant.username}}</a>
+              <div class="listing-list__buttons">
+                <a href="/interviewing-applicant/{{listing.id}}/{{applicant.id}}" id="list-button">Move-on</a>
+                <a href="/reject/{{listing.id}}/{{applicant.id}}" id="Reject">Reject</a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="listing-interviewing  listing__subContainer">
+          <h5>Offer Extended</h5>
+          {% for applicant in listing.offer_extended_apps.all %}
+            <div class="listing-list__container">
+              <a href="/profile/{{applicant.username}}">{{applicant.username}}</a>
+              <div class="listing-list__buttons">
+                <a href="/offer-applicant/{{listing.id}}/{{applicant.id}}" id="list-button">Move-on</a>
+                <a href="/reject/{{listing.id}}/{{applicant.id}}" id="Reject">Reject</a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="listing-interviewing  listing__subContainer">
+          <h5>Hired</h5>
+          {% for applicant in listing.hired_apps.all %}
+            <div class="listing-list__container">
+              <a href="/profile/{{applicant.username}}">{{applicant.username}}</a>
+              <div class="listing-list__buttons">
+                <button href="/hired-applicant/{{listing.id}}/{{applicant.id}}" id="hired-button" disabled>Hired</button>
+                <a href="/reject/{{listing.id}}/{{applicant.id}}" id="Reject">Reject</a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="listing-reject  listing__subContainer">
+          <h5>Rejected</h5>
+          {% for applicant in listing.denied_apps.all %}
+            <div class="listing-list__container">
+              <a href="/profile/{{applicant.username}}">{{applicant.username}}</a>
+              <div class="listing-list__buttons">
+                <button href="/reject/{{listing.id}}/{{applicant.id}}" id="Reject" disabled>Rejected</>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  </div>
+  <div class="listing-messages__container">
+  {% for message in messages %}
+    <div class="{{ message.tags }}">
+    {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div> {% endblock %}

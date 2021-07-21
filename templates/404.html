@@ -1,1 +1,11 @@
-<h1>404</h1>
+{% extends 'base_template.html' %}{% block content %}
+<div class="error__container">
+  <h1>404 PAGE NOT FOUND</h1>
+  <br />
+  <p>Seems you went a little too far down the rabbit hole. Go back or go <a href="/" style="color:#7FFFD4;">home</a> to dig your way out.</p>
+</div>
+<div style="height: 500px; width: 1000px; background-image:url(static/rabbithole.gif); background-position: center;
+background-repeat: no-repeat; background-size: cover;">
+
+</div>
+{% endblock %}

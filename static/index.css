@@ -1,0 +1,132 @@
+html,
+body {
+  padding: none;
+  margin: none;
+  box-sizing: border-box;
+}
+
+:root {
+  --font-stack: "Raleway", sans-serif;
+  --light-fontWeight: 100;
+  --heavy-fontWeight: 400;
+  --font-logo: "Montseratt", sans-serif;
+  --background-color: #0b0c10;
+  /* --light-color: #2dd8cd; */
+  --light-color: #1f2833;
+  --darker-color: rgb(31, 40, 51, 0.5);
+  --offWhite: rgb(250, 250, 250);
+  --offBlack: rgb(30, 30, 30);
+  --card-padding: 2rem;
+  --card-subContainer-borderRadius: 3px;
+  --card-subContainer-padding: 1rem;
+  --card-marginTop: 1.5rem;
+  --container-borderRadius: 10px;
+  --button-boxShadow: 0px 5px 10px var(--background-color);
+  --button-transition: all 0.2s ease;
+  --button-marginTop: 1rem;
+  --button-padding: 0.5rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  font-family: var(--font-stack);
+  font-weight: var(--light-fontWeight);
+  color: var(--offWhite);
+}
+
+a {
+  font-family: var(--font-stack);
+  font-weight: var(--heavy-fontWeight);
+  cursor: pointer;
+}
+
+nav {
+  background-color: var(--light-color);
+}
+
+.search {
+  height: 100%;
+  width: 70%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+}
+
+#search__form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+#search__input {
+  width: 65%;
+  font-family: var(--font-stack);
+  background-color: var(--offWhite);
+  padding: 0.2rem;
+}
+
+#search-submit__button {
+  border-radius: 50%;
+  right: 0;
+  height: 30px;
+  width: 30px;
+  position: absolute;
+  right: 18%;
+  border: none;
+  background-color: var(--light-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--offWhite);
+  transition: var(--button-transition);
+}
+
+#search-submit__button:hover {
+  box-shadow: var(--button-boxShadow);
+  background-color: var(--offWhite);
+  color: var(--light-color);
+  border: 1px solid var(--light-color);
+}
+
+.error__container {
+  background-color: var(--light-color);
+  padding: var(--card-padding);
+  margin-top: 1rem;
+}
+
+.error__container a {
+  color: var(--background-color);
+  font-style: italic;
+  outline: none;
+  text-decoration: none;
+}
+
+.home-container {
+  background: var(--light-color);
+  margin-top: 2rem;
+  padding: 2rem 2rem;
+  border-radius: 10px;
+}
+
+.home-subContainer {
+  margin: 3rem 0rem;
+}
+
+.home-subContainer h1,
+h5 {
+  font-weight: var(--heavy-fontWeight);
+}
+
+.home-subContainer a {
+  color: aquamarine;
+}
