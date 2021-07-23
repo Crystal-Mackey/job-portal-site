@@ -23,7 +23,13 @@
   <title>JobCentric</title>
 </head>
 
-<body style="background-color: #0b0c10">
+<body style="background-color:#269;
+background-image: linear-gradient(white 2px, transparent 2px),
+linear-gradient(90deg, white 2px, transparent 2px),
+linear-gradient(rgba(255,255,255,.3) 1px, transparent 1px),
+linear-gradient(90deg, rgba(255,255,255,.3) 1px, transparent 1px);
+background-size: 3000px 3000px, 3000px 3000px, 20px 20px, 20px 20px;
+background-position:-2px -2px, -2px -2px, -1px -1px, -1px -1px;">
 
   <nav class="navbar navbar-expand-lg navbar-dark">
     {% if request.user.is_authenticated %}
@@ -59,12 +65,12 @@
           {% if request.user.employee == '2' %}
           <a class="nav-link font-weight-bold" href="/create/">Post Job</a>
           {% endif %}
-          {% if notifications %}
+          <!-- {% if notifications %}
           <a class="nav-link font-weight-bold" href="/notifications/">Notifications
             <span class="badge badge-pill badge-light">{{notifications}}</span></a>
           {% else %}
           <a class="nav-link" href="/notifications/">Notifications</a>
-          {% endif %}
+          {% endif %} -->
           <a class="nav-link" href="/profile/{{request.user.username}}/">Profile</a>
           <a class="nav-link font-weight-bold" href="/logout/">Logout</a>
           {% else %}

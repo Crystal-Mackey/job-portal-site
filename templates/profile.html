@@ -3,7 +3,6 @@
   <div class="profile-info">
     <div class="profile-header__container">
       <h1>{{user.name}}</h1>
-      <p>{{user.username}}</p>
     </div>
     {% if request.user == user or request.user.employee == '2' or user.employee == '2' %}
     <div class="profile-contact__container">

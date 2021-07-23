@@ -13,3 +13,10 @@ https://docs.djangoproject.com/en/3.2/ref/request-response/
 https://docs.djangoproject.com/en/3.2/topics/http/shortcuts/ 
 https://docs.djangoproject.com/en/3.2/ref/urlresolvers/
 https://projects.verou.me/css3patterns/#blueprint-grid
+
+
+
+
+to create test users and listings:    python manage.py bootstrap_db -a 100
+
+-a 100 makes it so that you create 100 sample users/listings

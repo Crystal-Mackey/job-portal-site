@@ -3,8 +3,8 @@ from django.contrib.auth.models import AbstractUser
 
 
 CHOICES = [
-('1', 'Looking for a job'),
-('2', 'Posting job listings')
+('1', 'Job Seeker'),
+('2', 'Employer')
 ]
 
 class User(AbstractUser):
@@ -13,7 +13,7 @@ class User(AbstractUser):
     email = models.EmailField(unique=True, blank=False)
     bio = models.TextField(null=True, blank=True)
     experience = models.TextField(null=True, blank=True)
-    contact_num = models.IntegerField(null=True, blank=True)
+    contact_number = models.IntegerField(null=True, blank=True)
     employee = models.CharField(choices=CHOICES, blank=True, null=True, max_length=1)
     REQUIRED_FIELDS = []
 

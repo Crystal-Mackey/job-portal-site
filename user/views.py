@@ -90,7 +90,7 @@ def edit_profile(request, id):
             prof.bio = data["bio"]
             prof.experience = data["experience"]
             prof.skills = data["skills"]
-            prof.contact_num = data["contact_num"]
+            prof.contact_number = data["contact_number"]
             prof.save()
         return HttpResponseRedirect("/profile/%s" % prof.username)
     form = EditProfileForm(initial={
@@ -100,7 +100,7 @@ def edit_profile(request, id):
         'bio': prof.bio,
         'experience': prof.experience,
         'skills': prof.skills,
-        'contact_num': prof.contact_num,
+        'contact_number': prof.contact_number,
     })
     return render(request, "edit_profile.html", {"form": form})
 
