@@ -20,3 +20,6 @@ https://projects.verou.me/css3patterns/#blueprint-grid
 to create test users and listings:    python manage.py bootstrap_db -a 100
 
 -a 100 makes it so that you create 100 sample users/listings
+
+
+not deployed since Heroku removed free dynos. Old capstone project for Kenzie Academy
